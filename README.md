@@ -39,7 +39,6 @@ This is a React-based Post application that allows users to create, view, and in
 - [x] Users can manage previously created posts
   - [x] Users can edit posts after creation
   - [x] Users can update the title, content, and image URL of a post
-  - [x] Users can delete previously created posts from the post page
 
 
 ## 📸 GIF Walkthrough
