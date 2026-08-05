@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import EditPost from "./pages/EditPost";
 import CreatePost from "./pages/CreatePost";
 import PostPage from "./pages/PostPage";
 import "./App.css";
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<CreatePost />} />
         <Route path="/post/:id" element={<PostPage />} />
+        <Route path="/edit/:id" element={<EditPost />} />
       </Routes>
 
     </BrowserRouter>

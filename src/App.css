@@ -30,17 +30,13 @@ img {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-
-img:hover {
-    transform: scale(1.08) translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-}
-
 .button-div {
   display: flex;
   justify-content: center; /* Centers horizontally */
   align-items: center;     /* Centers vertically (if the container has height) */
   padding-bottom: 50px;
+  flex-direction: row;
+  gap: 20px;
 }
 
 

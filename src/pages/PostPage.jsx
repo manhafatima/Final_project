@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../client";
 
 
@@ -7,6 +7,7 @@ export default function PostPage() {
 
   const { id } = useParams();
 
+  const navigate = useNavigate();
 
   const [post, setPost] = useState(null);
 
@@ -43,6 +44,40 @@ export default function PostPage() {
 
   }
 
+  async function deletePost() {
+
+    const confirmDelete = window.confirm(
+        "Are you sure you want to delete this post?"
+    );
+
+
+    if (!confirmDelete) {
+        return;
+    }
+
+
+
+    const { error } = await supabase
+        .from("posts")
+        .delete()
+        .eq("id", post.id);
+
+
+
+    if (error) {
+
+        console.error("Error deleting post:", error);
+
+    } 
+    else {
+
+        navigate("/");
+
+    }
+
+  }
+
+
   async function handleUpvote() {
 
     const { error } = await supabase
@@ -51,6 +86,8 @@ export default function PostPage() {
         upvotes: post.upvotes + 1
       })
       .eq("id", post.id);
+
+
 
     if (error) {
 
@@ -64,6 +101,10 @@ export default function PostPage() {
     }
 
   }
+
+
+
+
   async function fetchComments() {
 
     const { data, error } = await supabase
@@ -109,7 +150,7 @@ export default function PostPage() {
       .insert([
         {
           post_id: post.id,
-          content: newComment
+          text: newComment
         }
       ]);
 
@@ -130,33 +171,48 @@ export default function PostPage() {
 
   }
 
-    useEffect(() => {
 
-      fetchPost();
 
-    }, []);
 
-    useEffect(() => {
 
-      if(post){
+  useEffect(() => {
 
-        fetchComments();
+    fetchPost();
 
-      }
+  }, []);
 
-      }, [post]);
 
-      if (loading) {
 
-        return <h2>Loading...</h2>;
 
-      }
+  useEffect(() => {
 
-      if (!post) {
+    if(post){
 
-        return <h2>Post not found.</h2>;
+      fetchComments();
 
     }
+
+  }, [post]);
+
+
+
+
+
+  if (loading) {
+
+    return <h2>Loading...</h2>;
+
+  }
+
+
+
+  if (!post) {
+
+    return <h2>Post not found.</h2>;
+
+  }
+
+
 
 
   return (
@@ -174,6 +230,9 @@ export default function PostPage() {
         {post.content}
       </p>
 
+
+
+
       {post.image_url && (
 
         <img
@@ -183,9 +242,17 @@ export default function PostPage() {
 
       )}
 
+
+
+
+
+
       <h3>
         Upvotes: {post.upvotes}
       </h3>
+
+
+
 
       <div className="button-div">
 
@@ -193,13 +260,34 @@ export default function PostPage() {
           👍 Upvote
         </button>
 
+        <button onClick={() => navigate(`/edit/${post.id}`)}>
+          ✏️ Edit Post
+        </button>
+
+        <button 
+        onClick={deletePost}
+        >
+        🗑 Delete Post
+        </button>
+
       </div>
 
+
+
+
+
+
       <hr />
+
+
 
       <h2>
         Comments
       </h2>
+
+
+
+
 
       {comments.map((comment)=>(
 
@@ -209,7 +297,7 @@ export default function PostPage() {
         >
 
           <p>
-            {comment.content}
+            {comment.text}
           </p>
 
 
@@ -217,6 +305,12 @@ export default function PostPage() {
 
 
       ))}
+
+
+
+
+
+
 
       <form onSubmit={addComment}>
 
@@ -236,6 +330,10 @@ export default function PostPage() {
 
 
       </form>
+
+
+
+
     </div>
 
   );
