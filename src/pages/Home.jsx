@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 export default function Home() {
 
     const [posts, setPosts] = useState([]);
+    const [search, setSearch] = useState("");
+    const [sort, setSort] = useState("newest");
 
 
     async function getPosts() {
@@ -26,38 +28,133 @@ export default function Home() {
     }
 
 
+
     useEffect(() => {
         getPosts();
     }, []);
 
 
 
+    // Search posts by title
+    const filteredPosts = posts.filter((post) =>
+        post.title
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    );
+
+
+
+    // Sort posts
+    const sortedPosts = [...filteredPosts];
+
+
+    if (sort === "upvotes") {
+
+        sortedPosts.sort(
+            (a, b) => b.upvotes - a.upvotes
+        );
+
+    } 
+    else {
+
+        sortedPosts.sort(
+            (a, b) =>
+            new Date(b.created_at) -
+            new Date(a.created_at)
+        );
+
+    }
+
+
+
     return (
-        <>
-            <div>
-                {posts.map((post) => (
 
-                    <div className="post-card" key={post.id}>
+        <div className="home-container">
 
-                        <Link to={`/post/${post.id}`}>
-                        <h2>{post.title}</h2>
-                        </Link>
 
-                        <p>
-                        Created: {new Date(post.created_at).toLocaleString()}
-                        </p>
+            <h1>
+                Home Feed
+            </h1>
 
-                        <p>
-                        👍 {post.upvotes}
-                        </p>
 
-                    </div>
 
-                ))}
+            <div className="feed-controls">
+
+
+                <input
+                    type="text"
+                    placeholder="Search posts..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+
+
+
+                <select
+                    value={sort}
+                    onChange={(e) => setSort(e.target.value)}
+                >
+
+                    <option value="newest">
+                        Latest Posts
+                    </option>
+
+
+                    <option value="upvotes">
+                        Most Upvoted
+                    </option>
+
+
+                </select>
+
+
             </div>
 
 
-        </>
+
+
+            {sortedPosts.map((post) => (
+
+
+                <div 
+                    className="post-card" 
+                    key={post.id}
+                >
+
+
+                    <Link to={`/post/${post.id}`}>
+
+                        <h2>
+                            {post.title}
+                        </h2>
+
+                    </Link>
+
+
+
+                    <p>
+                        Created:
+                        {" "}
+                        {new Date(post.created_at)
+                        .toLocaleString()}
+                    </p>
+
+
+
+                    <p>
+                        👍 {post.upvotes}
+                    </p>
+
+
+                </div>
+
+
+            ))}
+
+
+
+        </div>
+
     );
 
 }
