@@ -43,4 +43,4 @@ This is a React-based Post application that allows users to create, view, and in
 
 ## 📸 GIF Walkthrough
 
-[App Walkthrough](YOUR_LINK_HERE)
+[App Walkthrough](https://canva.link/0szjrk41vxfuwws)
