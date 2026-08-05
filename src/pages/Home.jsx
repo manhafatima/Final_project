@@ -34,48 +34,26 @@ export default function Home() {
 
     return (
         <>
-
-            <h1>Home Feed</h1>
-
-
-            <Link to="/create">
-                Create New Post
-            </Link>
-
-
-
             <div>
+                {posts.map((post) => (
 
-                {
-                    posts.map((post) => (
+                    <div className="post-card" key={post.id}>
 
-                        <div key={post.id}>
+                        <Link to={`/post/${post.id}`}>
+                        <h2>{post.title}</h2>
+                        </Link>
 
-                            <Link to={`/post/${post.id}`}>
-                                <h2>
-                                {post.title}
-                                </h2>
-                            </Link>
+                        <p>
+                        Created: {new Date(post.created_at).toLocaleString()}
+                        </p>
 
+                        <p>
+                        👍 {post.upvotes}
+                        </p>
 
-                            <p>
-                                Created:
-                                {" "}
-                                {new Date(post.created_at).toLocaleString()}
-                            </p>
+                    </div>
 
-
-                            <p>
-                                Upvotes: {post.upvotes}
-                            </p>
-
-
-                        </div>
-
-                    ))
-                }
-
-
+                ))}
             </div>
 
 

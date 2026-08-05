@@ -1,24 +1,11 @@
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
-
-export default function Navbar(){
-
-return(
-
-<nav>
-
-<Link to="/">
-Home
-</Link>
-
-
-<Link to="/create">
-Create Post
-</Link>
-
-
-</nav>
-
-)
-
+export default function Navbar() {
+  return (
+    <div className="navbar">
+      <Link to="/">📝 DevPosts</Link> {" "}
+      <Link to="/">Home</Link> {" "}
+      <Link to="/create">Create Post</Link>
+    </div>
+  );
 }

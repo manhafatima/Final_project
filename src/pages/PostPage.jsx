@@ -53,23 +53,36 @@ export default function PostPage() {
   }
 
   return (
-    <div>
+    <div className="post-content">
+
       <h1>{post.title}</h1>
 
       <p>{post.content}</p>
+
 
       {post.image_url && (
         <img
           src={post.image_url}
           alt={post.title}
-          width="400"
+          style={{
+            width: "100%",
+            maxWidth: "600px",
+          }}
         />
       )}
 
-      <h3>Upvotes: {post.upvotes}</h3>
-      <button onClick={handleUpvote}>
-        👍 Upvote
-      </button>
+
+      <h3>
+        Upvotes: {post.upvotes}
+      </h3>
+
+      <div className="button-div">
+        <button onClick={handleUpvote}>
+          👍 Upvote
+        </button>
+      </div>
+
+
     </div>
-  );
+);
 }
